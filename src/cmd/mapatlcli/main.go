@@ -10,7 +10,7 @@ func main() {
 	flag.Parse()
 
 	if *addressPtr == "" {
-		fmt.Printf("mapatlcli: Need an address to search. Specify as follows:\n\n")
+		fmt.Printf("mapatlcli: Specify an address to search, for example:\n\n")
 		flag.PrintDefaults()
 		fmt.Printf("\nExample: mapatlcli -address=\"123 Peachtree St.\"\n")
 		return
@@ -23,5 +23,16 @@ func main() {
 
 	for _, candidate := range result.Candidates {
 		fmt.Printf("%s\t%d\t%f\n", candidate.Address, candidate.Attributes.Ref_ID, candidate.Attributes.Score)
+	}
+
+	for _, candidate := range result.Candidates {
+		result, err := mapatlapi.FetchRecord(candidate.Attributes.Ref_ID)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		for _, record := range *result {
+			fmt.Printf("%s\t%s\n", record.COUNCIL_DIST, record.LABEL)
+		}
 	}
 }
