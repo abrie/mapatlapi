@@ -5,6 +5,7 @@ import "log"
 import "fmt"
 import "flag"
 import "os"
+import "encoding/json"
 
 func main() {
 	addressPtr := flag.String("address", "", "Single line address")
@@ -22,6 +23,11 @@ func main() {
 		log.Fatal(err)
 	}
 
+	if len(result.Candidates) == 0 {
+		fmt.Printf("No candidates found for address \"%s\"\n", *addressPtr)
+		os.Exit(0)
+	}
+
 	for _, candidate := range result.Candidates {
 		fmt.Printf("%s\t%d\t%f\n", candidate.Address, candidate.Attributes.Ref_ID, candidate.Attributes.Score)
 	}
@@ -32,8 +38,17 @@ func main() {
 			log.Fatal(err)
 		}
 
-		for _, record := range *result {
-			fmt.Printf("%s\t%s\n", record.COUNCIL_DIST, record.LABEL)
+		if len(result.Records) == 0 {
+			fmt.Printf("No records founds where Ref_ID=%d.\n", candidate.Attributes.Ref_ID)
+			os.Exit(0)
+		}
+
+		for _, record := range result.Records {
+			bytes, err := json.MarshalIndent(record, "", " ")
+			if err != nil {
+				log.Fatal(err)
+			}
+			fmt.Printf("%s\n", string(bytes))
 		}
 	}
 }

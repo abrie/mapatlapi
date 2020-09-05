@@ -158,4 +158,6 @@ type Record struct {
 	OID                     string `json:"OID,omitempty"`
 }
 
-type Result []Record
+type Result struct {
+	Records []Record `json:"records"`
+}

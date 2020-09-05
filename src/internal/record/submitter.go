@@ -43,12 +43,12 @@ func parseHttpResponse(resp *http.Response) (*Result, error) {
 		return nil, fmt.Errorf("Failed to read response body: %v", err)
 	}
 
-	var result = make(Result, 0)
-	if err := json.Unmarshal(body, &result); err != nil {
+	var records = make([]Record, 0)
+	if err := json.Unmarshal(body, &records); err != nil {
 		return nil, fmt.Errorf("Failed unmarshal response body: %v", err)
 	}
 
-	return &result, nil
+	return &Result{Records: records}, nil
 }
 
 func (p ProductionSubmitter) SubmitWithContext(ctx context.Context, request *Request) (*Result, error) {
