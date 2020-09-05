@@ -4,6 +4,7 @@ import "github.com/abrie/mapatlapi"
 import "log"
 import "fmt"
 import "flag"
+import "os"
 
 func main() {
 	addressPtr := flag.String("address", "", "Single line address")
@@ -13,7 +14,7 @@ func main() {
 		fmt.Printf("mapatlcli: Specify an address to search, for example:\n\n")
 		flag.PrintDefaults()
 		fmt.Printf("\nExample: mapatlcli -address=\"123 Peachtree St.\"\n")
-		return
+		os.Exit(1)
 	}
 
 	result, err := mapatlapi.SearchByAddress(*addressPtr)
