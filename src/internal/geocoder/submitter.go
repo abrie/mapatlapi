@@ -1,6 +1,7 @@
 package geocoder
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -30,7 +31,7 @@ func parseHttpResponse(resp *http.Response) (*Result, error) {
 	return &result, nil
 }
 
-func buildHttpRequest(request *Request) (*http.Request, error) {
+func buildHttpRequest(ctx context.Context, request *Request) (*http.Request, error) {
 	url := "https://egis.atlantaga.gov/arc/rest/services/WebLocators/TrAddrPointS/GeocodeServer/findAddressCandidates"
 
 	req, err := http.NewRequest("GET", url, nil)
@@ -50,8 +51,8 @@ func buildHttpRequest(request *Request) (*http.Request, error) {
 	return req, nil
 }
 
-func (p ProductionSubmitter) Submit(request *Request) (*Result, error) {
-	httpRequest, err := buildHttpRequest(request)
+func (p ProductionSubmitter) SubmitWithContext(ctx context.Context, request *Request) (*Result, error) {
+	httpRequest, err := buildHttpRequest(ctx, request)
 	if err != nil {
 		return nil, fmt.Errorf("Failed to submit request: %v", err)
 	}
@@ -68,4 +69,8 @@ func (p ProductionSubmitter) Submit(request *Request) (*Result, error) {
 	}
 
 	return result, nil
+}
+
+func (p ProductionSubmitter) Submit(request *Request) (*Result, error) {
+	return p.SubmitWithContext(context.Background(), request)
 }

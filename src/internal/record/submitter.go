@@ -1,6 +1,7 @@
 package record
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -13,13 +14,13 @@ import (
 
 type ProductionSubmitter struct{}
 
-func buildHttpRequest(request *Request) (*http.Request, error) {
+func buildHttpRequest(ctx context.Context, request *Request) (*http.Request, error) {
 	data := url.Values{}
 	data.Add("wsparam[]", strconv.Itoa(request.Ref_ID))
 	encodedData := data.Encode()
 
 	url := `http://egis.atlantaga.gov/app/home/php/egisws.php`
-	req, err := http.NewRequest("POST", url, strings.NewReader(encodedData))
+	req, err := http.NewRequestWithContext(ctx, "POST", url, strings.NewReader(encodedData))
 	if err != nil {
 		return nil, fmt.Errorf("Failed to build HTTP request: %v", err)
 	}
@@ -50,8 +51,8 @@ func parseHttpResponse(resp *http.Response) (*Result, error) {
 	return &result, nil
 }
 
-func (p ProductionSubmitter) Submit(request *Request) (*Result, error) {
-	req, err := buildHttpRequest(request)
+func (p ProductionSubmitter) SubmitWithContext(ctx context.Context, request *Request) (*Result, error) {
+	req, err := buildHttpRequest(ctx, request)
 	if err != nil {
 		return nil, fmt.Errorf("Failed to submit request: %v", err)
 	}
@@ -68,4 +69,8 @@ func (p ProductionSubmitter) Submit(request *Request) (*Result, error) {
 	}
 
 	return result, nil
+}
+
+func (p ProductionSubmitter) Submit(request *Request) (*Result, error) {
+	return p.SubmitWithContext(context.Background(), request)
 }
