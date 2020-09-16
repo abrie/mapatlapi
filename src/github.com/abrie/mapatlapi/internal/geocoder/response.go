@@ -1,16 +1,6 @@
 package geocoder
 
-import ()
-
-type Submitter interface {
-	Submit(r *Request) (*Result, error)
-}
-
-type Request struct {
-	Address string
-}
-
-type Result struct {
+type Response struct {
 	Candidates []Candidate `json:"candidates"`
 	Error      *Error      `json:"error,omitempty"`
 }

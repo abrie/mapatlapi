@@ -1,21 +1,49 @@
 package mapatlapi
 
-import "context"
-import "github.com/abrie/mapatlapi/internal/geocoder"
-import "github.com/abrie/mapatlapi/internal/record"
+import (
+	"context"
+	"fmt"
+)
 
-func SearchByAddress(address string) (*geocoder.Result, error) {
+import (
+	"github.com/abrie/mapatlapi/internal/geocoder"
+	"github.com/abrie/mapatlapi/internal/records"
+	"github.com/abrie/mapatlapi/internal/submitter"
+)
+
+func SearchByAddress(ctx context.Context, address string) (*geocoder.Response, error) {
+	service := &geocoder.Service{
+		Endpoint: "https://egis.atlantaga.gov/arc/rest/services/WebLocators/TrAddrPointS/GeocodeServer/findAddressCandidates"}
+
 	request := geocoder.Request{Address: address}
-	submitter := geocoder.ProductionSubmitter{}
-	ctx, cancel := context.WithCancel(context.Background())
-	defer cancel()
-	return submitter.SubmitWithContext(ctx, &request)
+	httpRequest, err := request.BuildHttpRequest(ctx, service)
+	if err != nil {
+		return nil, fmt.Errorf("Failed to build geocoder request: %s", err.Error())
+	}
+
+	httpResponse, err := submitter.Submit(httpRequest)
+	if err != nil {
+		return nil, fmt.Errorf("Geocoder submitter failed: %s", err.Error())
+	}
+
+	return geocoder.ParseHttpResponse(httpResponse)
 }
 
-func FetchRecord(refId int) (*record.Result, error) {
-	request := record.Request{Ref_ID: refId}
-	submitter := record.ProductionSubmitter{}
-	ctx, cancel := context.WithCancel(context.Background())
-	defer cancel()
-	return submitter.SubmitWithContext(ctx, &request)
+func FetchRecord(ctx context.Context, refId int) (*records.Response, error) {
+	service := &records.Service{
+		Endpoint: "http://egis.atlantaga.gov/app/home/php/egisws.php"}
+
+	request := records.Request{Ref_ID: refId}
+	httpRequest, err := request.BuildHttpRequest(ctx, service)
+	if err != nil {
+		return nil, fmt.Errorf("Failed to build records request: %s", err.Error())
+	}
+
+	httpResponse, err := submitter.Submit(httpRequest)
+	if err != nil {
+		return nil, fmt.Errorf("Records submitter failed: %s", err.Error())
+	}
+
+	return records.ParseHttpResponse(httpResponse)
+
 }

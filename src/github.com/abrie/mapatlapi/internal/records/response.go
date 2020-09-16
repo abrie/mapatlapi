@@ -1,13 +1,7 @@
-package record
+package records
 
-import ()
-
-type Submitter interface {
-	Submit(r *Request) (*Result, error)
-}
-
-type Request struct {
-	Ref_ID int
+type Response struct {
+	Records []Record `json:"records"`
 }
 
 type Record struct {
@@ -156,8 +150,4 @@ type Record struct {
 	DAYCUT                  string `json:"DAYCUT,omitempty"`
 	DAYSWE                  string `json:"DAYSWE,omitempty"`
 	OID                     string `json:"OID,omitempty"`
-}
-
-type Result struct {
-	Records []Record `json:"records"`
 }
