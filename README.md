@@ -2,17 +2,7 @@
 
 [MapATL](https://egis.atlantaga.gov/app/home/index.html) is a web service provided by the Atlanta government. It provides an HTML interface for searching by street address; returning information such as council districts, parks, transport, tax and emergency services. Unfortunately the service provides no offical API.
 
-## Unofficial API
-
-This repository provides a Go API for programmatic access to the site.
-
-## Unoffical CLI
-
-Included in this repository is a CLI application using the Go API. It's been wrapped as a Docker container. Run it like this:
-
-`docker run docker.pkg.github.com/abrie/mapatlapi/mapatlcli:latest`
-
-## Technical Details
+## Technical Background
 
 Internally, the [MapATL website](https://egis.atlantaga.gov/app/home/index.html) takes an address and performs three interesting RPC calls. This API is a lightweight wrapper around those calls.
 
@@ -25,3 +15,19 @@ Internally, the [MapATL website](https://egis.atlantaga.gov/app/home/index.html)
 3. _Places_ (_of interest_):
 	- Input: A `Ref_ID` and a `Category`, which can be one of two values: `"PL_PARKS"` or `"TRANS_MARTA_RAIL_STATIONS"`.
 	- Output: A list of places matching the category, each having a distance attribute.
+
+## Unofficial API
+
+This repository provides a Go API for programmatic access to the site. It provides three methods:
+
+```go
+func SearchByAddress(ctx context.Context, address string) (*geocoder.Response, error)
+func FetchLocation(ctx context.Context, refId int) (*location.Response, error)
+func FetchPlaces(ctx context.Context, refId int, category string) (*places.Response, error)
+```
+
+## Unoffical CLI
+
+Included in this repository is a CLI application using the Go API. It's been wrapped as a Docker container. Run it like this:
+
+`docker run docker.pkg.github.com/abrie/mapatlapi/mapatlcli:latest`
