@@ -7,8 +7,8 @@ import (
 
 import (
 	"github.com/abrie/mapatlapi/cmd/cli/command/geocoder"
+	"github.com/abrie/mapatlapi/cmd/cli/command/location"
 	"github.com/abrie/mapatlapi/cmd/cli/command/places"
-	"github.com/abrie/mapatlapi/cmd/cli/command/point"
 )
 
 func main() {
@@ -17,8 +17,8 @@ func main() {
 		fmt.Printf("\nusage: mapatlcli <command> [params]\n")
 		fmt.Printf("\nCommands are:\n")
 		fmt.Printf("\tgeocoder\tTransforms an address to a point ID.\n")
-		fmt.Printf("\tpoint\t\tLoads the data associated with a point ID.\n")
-		fmt.Printf("\tplaces\t\tReturns places of interest near to a point ID.\n")
+		fmt.Printf("\tlocation\tLoads the data for the location associated with a point ID.\n")
+		fmt.Printf("\tplaces\t\tReturns places of interest proximal to the location identified by the point ID.\n")
 		os.Exit(2)
 	}
 
@@ -28,8 +28,8 @@ func main() {
 	switch command {
 	case "geocoder":
 		geocoder.Run(args)
-	case "point":
-		point.Run(args)
+	case "location":
+		location.Run(args)
 	case "places":
 		places.Run(args)
 	default:
