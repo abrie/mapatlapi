@@ -7,6 +7,7 @@ import (
 
 import (
 	"github.com/abrie/mapatlapi/internal/geocoder"
+	"github.com/abrie/mapatlapi/internal/places"
 	"github.com/abrie/mapatlapi/internal/records"
 	"github.com/abrie/mapatlapi/internal/submitter"
 )
@@ -45,5 +46,22 @@ func FetchRecord(ctx context.Context, refId int) (*records.Response, error) {
 	}
 
 	return records.ParseHttpResponse(httpResponse)
+}
 
+func FetchPlaces(ctx context.Context, refId int, category string) (*places.Response, error) {
+	service := &places.Service{
+		Endpoint: "http://egis.atlantaga.gov/app/home/php/egispoi.php"}
+
+	request := places.Request{Ref_ID: refId, Category: category}
+	httpRequest, err := request.BuildHttpRequest(ctx, service)
+	if err != nil {
+		return nil, fmt.Errorf("Failed to build places request: %s", err.Error())
+	}
+
+	httpResponse, err := submitter.Submit(httpRequest)
+	if err != nil {
+		return nil, fmt.Errorf("Records submitter failed: %s", err.Error())
+	}
+
+	return places.ParseHttpResponse(httpResponse)
 }

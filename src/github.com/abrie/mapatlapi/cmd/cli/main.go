@@ -7,12 +7,18 @@ import (
 
 import (
 	"github.com/abrie/mapatlapi/cmd/cli/command/geocoder"
+	"github.com/abrie/mapatlapi/cmd/cli/command/places"
 	"github.com/abrie/mapatlapi/cmd/cli/command/records"
 )
 
 func main() {
 	if len(os.Args) < 2 {
-		fmt.Printf("Requires a command.\n")
+		fmt.Printf("mapatlcli is a cli interface to MapATL.\n")
+		fmt.Printf("\nusage: mapatlcli <command> [params]\n")
+		fmt.Printf("\nCommands are:\n")
+		fmt.Printf("\tgeocoder\n")
+		fmt.Printf("\trecords\n")
+		fmt.Printf("\tplaces\n")
 		os.Exit(2)
 	}
 
@@ -24,6 +30,8 @@ func main() {
 		geocoder.Run(args)
 	case "records":
 		records.Run(args)
+	case "places":
+		places.Run(args)
 	default:
 		fmt.Printf("Unkown command '%s'.\n", command)
 		os.Exit(2)
