@@ -7,5 +7,8 @@ dependencies:
 build:
 	@GOPATH=$(GOPATH) go build -v -o bin/cli github.com/abrie/mapatlapi/cmd/cli
 
+container:
+	docker build .
+
 test:
 	@GOPATH=$(GOPATH) go test -v ./...
