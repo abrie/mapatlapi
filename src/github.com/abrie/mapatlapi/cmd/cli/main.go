@@ -16,9 +16,9 @@ func main() {
 		fmt.Printf("mapatlcli is a cli interface to MapATL.\n")
 		fmt.Printf("\nusage: mapatlcli <command> [params]\n")
 		fmt.Printf("\nCommands are:\n")
-		fmt.Printf("\tgeocoder\n")
-		fmt.Printf("\tpoint\n")
-		fmt.Printf("\tplaces\n")
+		fmt.Printf("\tgeocoder\tTransforms an address to a point ID.\n")
+		fmt.Printf("\tpoint\t\tLoads the data associated with a point ID.\n")
+		fmt.Printf("\tplaces\t\tReturns places of interest near to a point ID.\n")
 		os.Exit(2)
 	}
 
