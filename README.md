@@ -26,8 +26,23 @@ func FetchLocation(ctx context.Context, refId int) (*location.Response, error)
 func FetchPlaces(ctx context.Context, refId int, category string) (*places.Response, error)
 ```
 
-## Unoffical CLI
+## Unofficial CLI
 
 Included in this repository is a CLI application using the Go API. It's been wrapped as a Docker container. Run it like this:
 
 `docker run docker.pkg.github.com/abrie/mapatlapi/mapatlcli:latest`
+
+Run the command without parameters for help.
+
+## Unofficial Microservice
+
+There also a minimal server available which exposes the API functions through GETable handlers. Run it like this:
+
+`docker run docker.pkg.github.com/abrie/mapatlapi/mapatlservice:latest -port XXXX`
+
+The microservice listens on the specified port, and responsds to GET requests as follows:
+
+- `/geocoder?address=url-encoded-address-parameter-here`
+- `/locations?id=ref_id_here`
+- `/places?is=ref_id_here&category=category_here`
+
