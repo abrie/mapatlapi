@@ -1,4 +1,4 @@
-package records
+package point
 
 import (
 	"encoding/json"
@@ -20,10 +20,10 @@ func ParseHttpResponse(resp *http.Response) (*Response, error) {
 		return nil, fmt.Errorf("Failed to read response body: %v", err)
 	}
 
-	var arr = make([]Record, 0)
-	if err := json.Unmarshal(body, &arr); err != nil {
+	var response Response
+	if err := json.Unmarshal(body, &response); err != nil {
 		return nil, fmt.Errorf("Failed unmarshal response body: %v", err)
 	}
 
-	return &Response{Records: arr}, nil
+	return &response, nil
 }

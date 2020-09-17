@@ -1,10 +1,8 @@
-package records
+package point
 
-type Response struct {
-	Records []Record `json:"records"`
-}
+type Response []Point
 
-type Record struct {
+type Point struct {
 	OBJECTID                string `json:"OBJECTID,omitempty"`
 	FEATUREID               string `json:"FEATUREID,omitempty"`
 	PARCELPIN               string `json:"PARCELPIN,omitempty"`

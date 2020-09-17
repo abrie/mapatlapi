@@ -8,7 +8,7 @@ import (
 import (
 	"github.com/abrie/mapatlapi/internal/geocoder"
 	"github.com/abrie/mapatlapi/internal/places"
-	"github.com/abrie/mapatlapi/internal/records"
+	"github.com/abrie/mapatlapi/internal/point"
 	"github.com/abrie/mapatlapi/internal/submitter"
 )
 
@@ -30,14 +30,14 @@ func SearchByAddress(ctx context.Context, address string) (*geocoder.Response, e
 	return geocoder.ParseHttpResponse(httpResponse)
 }
 
-func FetchRecord(ctx context.Context, refId int) (*records.Response, error) {
-	service := &records.Service{
+func FetchPoint(ctx context.Context, refId int) (*point.Response, error) {
+	service := &point.Service{
 		Endpoint: "http://egis.atlantaga.gov/app/home/php/egisws.php"}
 
-	request := records.Request{Ref_ID: refId}
+	request := point.Request{Ref_ID: refId}
 	httpRequest, err := request.BuildHttpRequest(ctx, service)
 	if err != nil {
-		return nil, fmt.Errorf("Failed to build records request: %s", err.Error())
+		return nil, fmt.Errorf("Failed to build point request: %s", err.Error())
 	}
 
 	httpResponse, err := submitter.Submit(httpRequest)
@@ -45,7 +45,7 @@ func FetchRecord(ctx context.Context, refId int) (*records.Response, error) {
 		return nil, fmt.Errorf("Records submitter failed: %s", err.Error())
 	}
 
-	return records.ParseHttpResponse(httpResponse)
+	return point.ParseHttpResponse(httpResponse)
 }
 
 func FetchPlaces(ctx context.Context, refId int, category string) (*places.Response, error) {

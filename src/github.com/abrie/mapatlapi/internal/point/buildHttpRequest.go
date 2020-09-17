@@ -1,4 +1,4 @@
-package records
+package point
 
 import (
 	"context"

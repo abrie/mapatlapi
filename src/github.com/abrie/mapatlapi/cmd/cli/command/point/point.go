@@ -1,4 +1,4 @@
-package records
+package point
 
 import (
 	"context"
@@ -14,8 +14,8 @@ import (
 )
 
 func Run(args []string) {
-	flagSet := flag.NewFlagSet("record", flag.ExitOnError)
-	refId := flagSet.Int("id", 0, "Id of the record to retrieve")
+	flagSet := flag.NewFlagSet("point", flag.ExitOnError)
+	refId := flagSet.Int("id", 0, "Id of the point to retrieve")
 
 	flagSet.Parse(args)
 
@@ -25,7 +25,7 @@ func Run(args []string) {
 		os.Exit(2)
 	}
 
-	result, err := mapatlapi.FetchRecord(context.Background(), *refId)
+	result, err := mapatlapi.FetchPoint(context.Background(), *refId)
 	if err != nil {
 		log.Fatal(err)
 	}
