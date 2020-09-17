@@ -14,7 +14,7 @@ Internally, the [MapATL website](https://egis.atlantaga.gov/app/home/index.html)
 	- Output: Information about the location. See [this definition](https://github.com/abrie/mapatlapi/blob/master/src/github.com/abrie/mapatlapi/internal/point/response.go) for details.
 3. _Places_ (_of interest_):
 	- Input: A `Ref_ID` and a `Category`, which can be one of two values: `"PL_PARKS"` or `"TRANS_MARTA_RAIL_STATIONS"`.
-	- Output: A list of places matching the category, each having a distance attribute.
+	- Output: A list of places matching the category. See [this definition](https://github.com/abrie/mapatlapi/blob/master/src/github.com/abrie/mapatlapi/internal/places/response.go) for details.
 
 ## Unofficial API
 
