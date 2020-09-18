@@ -1,10 +1,14 @@
 # About MapATL
 
-[MapATL](https://egis.atlantaga.gov/app/home/index.html) is a web service provided by the City of Atlanta. Through an HTML interface, a user can enter a street address and recieve information about the location such as council district, nearby parks, transport, tax and emergency services. This repository is an attempt to provide an API to the service.
+[MapATL](https://egis.atlantaga.gov/app/home/index.html) is a web service provided by the City of Atlanta. Users may enter a street address and recieve information about the area, such as council district, nearby parks, transport, tax and emergency services. The service is useful, but lacks an API.
+
+# About MapAtlApi
+
+This repository provides a microservice/cli and Go module for programmatic interaction with [MapATL](https://egis.atlantaga.gov/app/home/index.html).
 
 ## Technical Background
 
-Internally, the [MapATL website](https://egis.atlantaga.gov/app/home/index.html) takes an address and performs three interesting RPC calls.
+Internally, the [MapATL website](https://egis.atlantaga.gov/app/home/index.html) performs three interesting RPC calls.
 
 1. _Geocoder_:
 	- Input: An address, ex. "123 Peachtree St."
@@ -16,19 +20,21 @@ Internally, the [MapATL website](https://egis.atlantaga.gov/app/home/index.html)
 	- Input: A `Ref_ID` and a `Category`, which can be one of two values: `"PL_PARKS"` or `"TRANS_MARTA_RAIL_STATIONS"`.
 	- Output: A list of places matching the category. See [this definition](https://github.com/abrie/mapatlapi/blob/master/src/github.com/abrie/mapatlapi/internal/places/response.go) for details.
 
-Unfortunately some of these calls are POST's and subject to CORS restrictions; which limits the usefulness for web apps.
+Unfortunately some of these calls are POST's and therefore subject to CORS restrictions.
 
-## Unofficial CLI
+### Unofficial CLI
 
-Included in this repository is a CLI application packaged as a Docker container. Run it like this:
+The CLI mirrors the above RPC methods as commandline arguments. For example:
+`docker run abriedev/mapatlapi` to see the help screen.
+`docker run abriedev/mapatlapi geocoder -address="55 Trinity Ave SW"` returns address candidates with a Ref_ID.
+`docker run abriedev/mapatlapi location -id=490131"` Uses Ref_ID to retrieve the location.
+`docker run abriedev/mapatlapi places -id=490131 -category=PL_PARKS` Uses the Ref_ID to return nearby parks.
 
-`docker run docker.pkg.github.com/abrie/mapatlapi/mapatlcli:latest`
+The CLI may also be run as a webserver:
 
-The CLI may also be run as a webserver, easily deployable as a microservice:
+`docker run abriedev/mapatlapi server -port XXXX`
 
-`docker run docker.pkg.github.com/abrie/mapatlapi/mapatlservice:latest server -port XXXX`
-
-The following routes mirror the RPC calls described above:
+The following routes mirror the CLI commands described above:
 
 - `/geocoder?address=url-encoded-address-parameter-here`
 - `/locations?id=ref_id_here`
