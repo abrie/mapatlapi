@@ -10,7 +10,7 @@ build:
 	@GOPATH=$(GOPATH) go build -v -o bin/cli github.com/abrie/mapatlapi/cmd/cli
 
 container:
-	docker build . -t docker.pkg.github.com/abrie/mapatlapi/mapatlcli:latest
+	docker build . -t abriedev/mapatlapi:latest
 
 test:
 	@GOPATH=$(GOPATH) go test -v ./...
