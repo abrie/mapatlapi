@@ -25,10 +25,11 @@ Unfortunately some of these calls are POST's and therefore subject to CORS restr
 ### Unofficial CLI
 
 The CLI mirrors the above RPC methods as commandline arguments. For example:
-`docker run abriedev/mapatlapi` to see the help screen.
-`docker run abriedev/mapatlapi geocoder -address="55 Trinity Ave SW"` returns address candidates with a Ref_ID.
-`docker run abriedev/mapatlapi location -id=490131"` Uses Ref_ID to retrieve the location.
-`docker run abriedev/mapatlapi places -id=490131 -category=PL_PARKS` Uses the Ref_ID to return nearby parks.
+
+- `docker run abriedev/mapatlapi` to see the help screen.
+1. `docker run abriedev/mapatlapi geocoder -address="55 Trinity Ave SW"` returns address candidates with a Ref_ID.
+2. `docker run abriedev/mapatlapi location -id=490131"` Uses Ref_ID to retrieve the location.
+3. `docker run abriedev/mapatlapi places -id=490131 -category=PL_PARKS` Uses the Ref_ID to return nearby parks.
 
 The CLI may also be run as a webserver:
 
@@ -36,9 +37,9 @@ The CLI may also be run as a webserver:
 
 The following routes mirror the CLI commands described above:
 
-- `/geocoder?address=url-encoded-address-parameter-here`
-- `/locations?id=ref_id_here`
-- `/places?id=ref_id_here&category=category_here`
+1. `/geocoder?address=url-encoded-address-parameter-here`
+2. `/locations?id=ref_id_here`
+3. `/places?id=ref_id_here&category=category_here`
 
 ## Unofficial API
 
