@@ -1,4 +1,4 @@
-package main
+package server
 
 import (
 	"flag"
@@ -9,15 +9,16 @@ import (
 )
 
 import (
-	"github.com/abrie/mapatlapi/cmd/service/handler"
+	"github.com/abrie/mapatlapi/cmd/cli/command/server/handler"
 )
 
-func main() {
-	port := flag.Int("port", 0, "Listen for requests on this port.")
-	flag.Parse()
+func Run(args []string) {
+	flagSet := flag.NewFlagSet("server", flag.ExitOnError)
+	port := flagSet.Int("port", 0, "Listen for requests on this port.")
+	flagSet.Parse(args)
 
 	if *port == 0 {
-		flag.Usage()
+		flagSet.Usage()
 		os.Exit(2)
 	}
 

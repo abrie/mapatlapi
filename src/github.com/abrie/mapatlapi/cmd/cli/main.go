@@ -9,6 +9,7 @@ import (
 	"github.com/abrie/mapatlapi/cmd/cli/command/geocoder"
 	"github.com/abrie/mapatlapi/cmd/cli/command/location"
 	"github.com/abrie/mapatlapi/cmd/cli/command/places"
+	"github.com/abrie/mapatlapi/cmd/cli/command/server"
 )
 
 func main() {
@@ -19,6 +20,7 @@ func main() {
 		fmt.Printf("\tgeocoder\tTransforms an address to a point ID.\n")
 		fmt.Printf("\tlocation\tLoads the data for the location associated with a point ID.\n")
 		fmt.Printf("\tplaces\t\tReturns places of interest proximal to the location identified by the point ID.\n")
+		fmt.Printf("\tserver\t\tStarts this app as a web service.\n")
 		os.Exit(2)
 	}
 
@@ -32,6 +34,8 @@ func main() {
 		location.Run(args)
 	case "places":
 		places.Run(args)
+	case "server":
+		server.Run(args)
 	default:
 		fmt.Printf("Unkown command '%s'.\n", command)
 		os.Exit(2)

@@ -34,15 +34,12 @@ Included in this repository is a CLI application using the Go API. It's been wra
 
 Run the command without parameters for help.
 
-## Unofficial Microservice
+The cli may also be run as a webserver, effectivly turning it into a microservice with GETable commands. Run it like this:
 
-There also a minimal server available which exposes the API functions through GETable handlers. Run it like this:
-
-`docker run docker.pkg.github.com/abrie/mapatlapi/mapatlservice:latest -port XXXX`
+`docker run docker.pkg.github.com/abrie/mapatlapi/mapatlservice:latest server -port XXXX`
 
 The microservice listens on the specified port, and responsds to GET requests as follows:
 
 - `/geocoder?address=url-encoded-address-parameter-here`
 - `/locations?id=ref_id_here`
 - `/places?is=ref_id_here&category=category_here`
-
