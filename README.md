@@ -4,7 +4,7 @@
 
 # About MapAtlApi
 
-This repository provides a microservice/cli and Go module for programmatic interaction with [MapATL](https://egis.atlantaga.gov/app/home/index.html).
+This repository provides an API to MapATL. The API is implemented in Go, importable as a module, runnable as CLI, or servable as a microservice.
 
 ## Technical Background
 
@@ -22,30 +22,29 @@ Internally, the [MapATL website](https://egis.atlantaga.gov/app/home/index.html)
 
 Unfortunately some of these calls are POST's and therefore subject to CORS restrictions.
 
-### Unofficial CLI
+### CLI
 
-The CLI mirrors the above RPC methods as commandline arguments. For example:
+The CLI exposes the API as commandline arguments. For example:
 
-- `docker run abriedev/mapatlapi` to see the help screen.
-1. `docker run abriedev/mapatlapi geocoder -address="55 Trinity Ave SW"` returns candidate Ref_IDs.
+`docker run abriedev/mapatlapi` to see the help screen.
+
+1. `docker run abriedev/mapatlapi geocoder -address="55 Trinity Ave SW"` returns JSON with candidate Ref_IDs.
 2. `docker run abriedev/mapatlapi location -id=490131` Uses Ref_ID to retrieve the location.
 3. `docker run abriedev/mapatlapi places -id=490131 -category=PL_PARKS` Returns parks nearby.
 
-#### As a server/microservice
+### Microservice
 
-The CLI may also be run as a webserver:
+The app may also be run as a webserver, for example:
 
-`docker run abriedev/mapatlapi server -port XXXX`
+`docker run -p 8888:8000 abriedev/mapatlapi:latest server -port 8000`
 
-The following routes mirror the CLI commands described above:
+Which exposes the API through https://localhost:8888 with the following routes:
 
 1. `/geocoder?address=url-encoded-address-parameter-here`
 2. `/locations?id=ref_id_here`
 3. `/places?id=ref_id_here&category=category_here`
 
-## Unofficial API
-
-This repository is an importable Go module.
+### API
 
 `import "https://github.com/abrie/mapatlapi"`
 
@@ -56,4 +55,3 @@ func SearchByAddress(ctx context.Context, address string) (*geocoder.Response, e
 func FetchLocation(ctx context.Context, refId int) (*location.Response, error)
 func FetchPlaces(ctx context.Context, refId int, category string) (*places.Response, error)
 ```
-
