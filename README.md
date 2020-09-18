@@ -27,7 +27,7 @@ Unfortunately some of these calls are POST's and therefore subject to CORS restr
 The CLI mirrors the above RPC methods as commandline arguments. For example:
 
 - `docker run abriedev/mapatlapi` to see the help screen.
-1. `docker run abriedev/mapatlapi geocoder -address="55 Trinity Ave SW"` returns address candidates with a Ref_ID.
+1. `docker run abriedev/mapatlapi geocoder -address="55 Trinity Ave SW"` returns candidate Ref_IDs.
 2. `docker run abriedev/mapatlapi location -id=490131"` Uses Ref_ID to retrieve the location.
 3. `docker run abriedev/mapatlapi places -id=490131 -category=PL_PARKS` Uses the Ref_ID to return nearby parks.
 
