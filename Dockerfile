@@ -1,5 +1,5 @@
 FROM golang:alpine as golang
-RUN apk --update add ca-certificates
+RUN apk --update --no-cache add ca-certificates && update-ca-certificates
 WORKDIR /go/src
 COPY src/ .
 
