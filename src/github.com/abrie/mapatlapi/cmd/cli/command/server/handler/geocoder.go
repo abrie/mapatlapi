@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"strconv"
 )
 
 import (
@@ -24,7 +25,29 @@ func (geocoder Geocoder) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	result, err := mapatlapi.SearchByAddress(context.Background(), addresses[0])
+	addressArg := addresses[0]
+
+	maxLocations, ok := r.URL.Query()["maxLocations"]
+	if !ok || len(maxLocations) > 1 {
+		w.WriteHeader(http.StatusBadRequest)
+		fmt.Fprintf(w, "maxLocations must not be specified more than once.")
+		return
+	}
+
+	var maxLocationsArg int64
+	if len(maxLocations) == 1 {
+		val, err := strconv.ParseInt(maxLocations[0], 10, 64)
+		if err != nil {
+			w.WriteHeader(http.StatusBadRequest)
+			fmt.Fprintf(w, "maxLocations must be a number. ")
+			return
+		}
+		maxLocationsArg = val
+	} else {
+		maxLocationsArg = 6
+	}
+
+	result, err := mapatlapi.SearchByAddress(context.Background(), addressArg, maxLocationsArg)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		log.Printf("Failed to search address: %s", err.Error())

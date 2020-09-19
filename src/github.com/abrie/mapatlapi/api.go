@@ -12,11 +12,11 @@ import (
 	"github.com/abrie/mapatlapi/internal/submitter"
 )
 
-func SearchByAddress(ctx context.Context, address string) (*geocoder.Response, error) {
+func SearchByAddress(ctx context.Context, address string, maxLocations int64) (*geocoder.Response, error) {
 	service := &geocoder.Service{
 		Endpoint: "https://egis.atlantaga.gov/arc/rest/services/WebLocators/TrAddrPointS/GeocodeServer/findAddressCandidates"}
 
-	request := geocoder.Request{Address: address}
+	request := geocoder.Request{Address: address, MaxLocations: maxLocations}
 	httpRequest, err := request.BuildHttpRequest(ctx, service)
 	if err != nil {
 		return nil, fmt.Errorf("Failed to build geocoder request: %s", err.Error())
