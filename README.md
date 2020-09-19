@@ -51,7 +51,7 @@ Which exposes the API through https://localhost:8888 with the following routes:
 It provides three methods, essentially lightweight wrappers around the RPC calls:
 
 ```go
-func SearchByAddress(ctx context.Context, address string) (*geocoder.Response, error)
+func SearchByAddress(ctx context.Context, address string, maxLocations int64) (*geocoder.Response, error)
 func FetchLocation(ctx context.Context, refId int) (*location.Response, error)
 func FetchPlaces(ctx context.Context, refId int, category string) (*places.Response, error)
 ```
