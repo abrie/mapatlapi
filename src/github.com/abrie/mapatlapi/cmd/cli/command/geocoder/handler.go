@@ -16,23 +16,24 @@ import (
 func ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	addresses, ok := r.URL.Query()["address"]
 
-	if !ok || len(addresses) < 1 {
+	if !ok || len(addresses) != 1 {
 		w.WriteHeader(http.StatusBadRequest)
-		fmt.Fprintf(w, "Missing 'address' parameter.")
+		fmt.Fprintf(w, "Exactly 1 'address' parameter required.")
 		return
 	}
 
 	addressArg := addresses[0]
 
-	maxLocations, ok := r.URL.Query()["maxLocations"]
-	if !ok || len(maxLocations) > 1 {
-		w.WriteHeader(http.StatusBadRequest)
-		fmt.Fprintf(w, "maxLocations must not be specified more than once.")
-		return
-	}
+	var maxLocationsArg int64 = 6
 
-	var maxLocationsArg int64
-	if len(maxLocations) == 1 {
+	maxLocations, ok := r.URL.Query()["maxLocations"]
+	if ok {
+		if len(maxLocations) != 1 {
+			w.WriteHeader(http.StatusBadRequest)
+			fmt.Fprintf(w, "Exactly 0 or 1 'maxLocations' parameter required.")
+			return
+		}
+
 		val, err := strconv.ParseInt(maxLocations[0], 10, 64)
 		if err != nil {
 			w.WriteHeader(http.StatusBadRequest)
@@ -40,8 +41,6 @@ func ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		maxLocationsArg = val
-	} else {
-		maxLocationsArg = 6
 	}
 
 	result, err := mapatlapi.SearchByAddress(context.Background(), addressArg, maxLocationsArg)
