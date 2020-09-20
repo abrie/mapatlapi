@@ -2,15 +2,14 @@ package geocoder
 
 import (
 	"context"
-	"fmt"
 	"net/http"
 	"strconv"
 )
 
 func (params *Request) BuildHttpRequest(ctx context.Context, service *Service) (*http.Request, error) {
-	req, err := http.NewRequest("GET", service.Endpoint, nil)
+	req, err := http.NewRequestWiteContext(ctx, "GET", service.Endpoint, nil)
 	if err != nil {
-		return nil, fmt.Errorf("Failed to build HTTP Request: %v", err)
+		return nil, err
 	}
 
 	q := req.URL.Query()
