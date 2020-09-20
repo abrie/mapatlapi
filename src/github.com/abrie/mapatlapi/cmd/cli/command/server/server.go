@@ -24,6 +24,7 @@ func Run(args []string) {
 		os.Exit(2)
 	}
 
+	http.HandleFunc("/", ServeHTTP)
 	http.HandleFunc("/geocoder", geocoder.ServeHTTP)
 	http.HandleFunc("/location", location.ServeHTTP)
 	http.HandleFunc("/places", places.ServeHTTP)
