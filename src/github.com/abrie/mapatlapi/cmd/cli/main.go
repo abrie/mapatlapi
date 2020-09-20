@@ -14,7 +14,7 @@ import (
 
 func main() {
 	if len(os.Args) < 2 {
-		fmt.Printf("mapatlcli is a cli interface to MapATL.\n")
+		fmt.Printf("mapatlapi is an API interface to MapATL.\n")
 		fmt.Printf("\nusage: mapatlcli <command> [params]\n")
 		fmt.Printf("\nCommands are:\n")
 		fmt.Printf("\tgeocoder\tTransforms an address to a point ID.\n")
