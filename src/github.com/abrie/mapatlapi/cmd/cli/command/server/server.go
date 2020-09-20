@@ -9,7 +9,9 @@ import (
 )
 
 import (
-	"github.com/abrie/mapatlapi/cmd/cli/command/server/handler"
+	"github.com/abrie/mapatlapi/cmd/cli/command/geocoder"
+	"github.com/abrie/mapatlapi/cmd/cli/command/location"
+	"github.com/abrie/mapatlapi/cmd/cli/command/places"
 )
 
 func Run(args []string) {
@@ -22,11 +24,14 @@ func Run(args []string) {
 		os.Exit(2)
 	}
 
-	http.Handle("/geocoder", handler.Geocoder{})
-	http.Handle("/location", handler.Location{})
-	http.Handle("/places", handler.Places{})
+	http.HandleFunc("/geocoder", geocoder.ServeHTTP)
+	http.HandleFunc("/location", location.ServeHTTP)
+	http.HandleFunc("/places", places.ServeHTTP)
 
 	addr := fmt.Sprintf(":%d", *port)
 	log.Printf("Service started on %s", addr)
 	log.Fatal(http.ListenAndServe(addr, nil))
+}
+
+func Help() {
 }

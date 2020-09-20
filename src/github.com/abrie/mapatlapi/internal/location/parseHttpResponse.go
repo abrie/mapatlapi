@@ -17,12 +17,12 @@ func ParseHttpResponse(resp *http.Response) (*Response, error) {
 
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return nil, fmt.Errorf("Failed to read response body: %v", err)
+		return nil, fmt.Errorf("Failed to read response body: %w", err)
 	}
 
 	var response Response
 	if err := json.Unmarshal(body, &response); err != nil {
-		return nil, fmt.Errorf("Failed unmarshal response body: %v", err)
+		return nil, fmt.Errorf("Failed unmarshal response body: %w", err)
 	}
 
 	return &response, nil

@@ -1,4 +1,4 @@
-package handler
+package location
 
 import (
 	"context"
@@ -13,10 +13,7 @@ import (
 	"github.com/abrie/mapatlapi"
 )
 
-type Location struct {
-}
-
-func (handler Location) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+func ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	ids, ok := r.URL.Query()["id"]
 
 	if !ok || len(ids) < 1 {

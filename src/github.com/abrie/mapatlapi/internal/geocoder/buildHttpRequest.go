@@ -7,7 +7,7 @@ import (
 )
 
 func (params *Request) BuildHttpRequest(ctx context.Context, service *Service) (*http.Request, error) {
-	req, err := http.NewRequestWiteContext(ctx, "GET", service.Endpoint, nil)
+	req, err := http.NewRequestWithContext(ctx, "GET", service.Endpoint, nil)
 	if err != nil {
 		return nil, err
 	}

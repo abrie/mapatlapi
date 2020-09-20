@@ -1,4 +1,4 @@
-package handler
+package geocoder
 
 import (
 	"context"
@@ -13,10 +13,7 @@ import (
 	"github.com/abrie/mapatlapi"
 )
 
-type Geocoder struct {
-}
-
-func (geocoder Geocoder) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+func ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	addresses, ok := r.URL.Query()["address"]
 
 	if !ok || len(addresses) < 1 {
@@ -50,7 +47,7 @@ func (geocoder Geocoder) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	result, err := mapatlapi.SearchByAddress(context.Background(), addressArg, maxLocationsArg)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
-		log.Printf("Failed to search address: %s", err.Error())
+		log.Printf("Failed to search address: %s", err)
 		fmt.Fprintf(w, "Internal API called failed.")
 		return
 	}
@@ -58,14 +55,14 @@ func (geocoder Geocoder) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	response, err := json.Marshal(result)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
-		log.Printf("Failed to marshal address response into JSON: %s", err.Error())
+		log.Printf("Failed to marshal address response into JSON: %s", err)
 		fmt.Fprintf(w, "Internal API called failed.")
 		return
 	}
 
 	w.Header().Set("Content-Type", "application/json")
-	if size, err := w.Write(response); err != nil {
-		log.Printf("Failed write address response: Wrote %d bytes, received error %s", size, err.Error())
+	if _, err := w.Write(response); err != nil {
+		log.Printf("Failed write address response: %s", err)
 		return
 	}
 
