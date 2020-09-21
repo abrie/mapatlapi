@@ -6,6 +6,7 @@ import (
 )
 
 import (
+	"github.com/abrie/mapatlapi"
 	"github.com/abrie/mapatlapi/cmd/cli/command/geocoder"
 	"github.com/abrie/mapatlapi/cmd/cli/command/location"
 	"github.com/abrie/mapatlapi/cmd/cli/command/places"
@@ -24,18 +25,19 @@ func main() {
 		os.Exit(2)
 	}
 
+	config := mapatlapi.New()
 	command := os.Args[1]
 	args := os.Args[2:]
 
 	switch command {
 	case "geocoder":
-		geocoder.Run(args)
+		geocoder.Run(config, args)
 	case "location":
-		location.Run(args)
+		location.Run(config, args)
 	case "places":
-		places.Run(args)
+		places.Run(config, args)
 	case "server":
-		server.Run(args)
+		server.Run(config, args)
 	default:
 		fmt.Printf("Unkown command '%s'.\n", command)
 		os.Exit(2)

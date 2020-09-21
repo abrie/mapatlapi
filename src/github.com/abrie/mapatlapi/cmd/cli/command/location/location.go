@@ -13,7 +13,7 @@ import (
 	"github.com/abrie/mapatlapi/cmd/cli/utils"
 )
 
-func Run(args []string) {
+func Run(api mapatlapi.Config, args []string) {
 	flagSet := flag.NewFlagSet("location", flag.ExitOnError)
 	refId := flagSet.Int("id", 0, "Id of the location to retrieve")
 
@@ -25,7 +25,7 @@ func Run(args []string) {
 		os.Exit(2)
 	}
 
-	result, err := mapatlapi.FetchLocation(context.Background(), *refId)
+	result, err := api.FetchLocation(context.Background(), *refId)
 	if err != nil {
 		log.Fatal(err)
 	}

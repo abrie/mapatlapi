@@ -13,7 +13,7 @@ import (
 	"github.com/abrie/mapatlapi/cmd/cli/utils"
 )
 
-func Run(args []string) {
+func Run(config mapatlapi.Config, args []string) {
 	flagSet := flag.NewFlagSet("geocoder", flag.ExitOnError)
 	address := flagSet.String("address", "", "Address to geocode, for example '123 Peachtree St.'")
 	maxLocations := flagSet.Int64("maxLocations", 6, "Maximum returned candidate locations.")
@@ -26,7 +26,7 @@ func Run(args []string) {
 		os.Exit(2)
 	}
 
-	result, err := mapatlapi.SearchByAddress(context.Background(), *address, *maxLocations)
+	result, err := config.SearchByAddress(context.Background(), *address, *maxLocations)
 	if err != nil {
 		log.Fatal(err)
 	}

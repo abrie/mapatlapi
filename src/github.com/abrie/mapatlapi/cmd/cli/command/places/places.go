@@ -13,6 +13,7 @@ import (
 	"github.com/abrie/mapatlapi/cmd/cli/utils"
 )
 
+/* TODO: Move Category definitions to the api */
 var categories map[string]bool
 
 func init() {
@@ -21,7 +22,7 @@ func init() {
 		"TRANS_MARTA_RAIL_STATIONS": true}
 }
 
-func Run(args []string) {
+func Run(api mapatlapi.Config, args []string) {
 	flagSet := flag.NewFlagSet("places", flag.ExitOnError)
 	refId := flagSet.Int("id", 0, "Id of the location to retrieve")
 	category := flagSet.String("category", "", "Category of places of interest corresponding to locator")
@@ -43,7 +44,7 @@ func Run(args []string) {
 		os.Exit(2)
 	}
 
-	result, err := mapatlapi.FetchPlaces(context.Background(), *refId, *category)
+	result, err := api.FetchPlaces(context.Background(), *refId, *category)
 	if err != nil {
 		log.Fatal(err)
 	}

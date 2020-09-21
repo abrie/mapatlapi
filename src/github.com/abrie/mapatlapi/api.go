@@ -12,9 +12,8 @@ import (
 	"github.com/abrie/mapatlapi/internal/submitter"
 )
 
-func SearchByAddress(ctx context.Context, address string, maxLocations int64) (*geocoder.Response, error) {
-	service := &geocoder.Service{
-		Endpoint: "https://egis.atlantaga.gov/arc/rest/services/WebLocators/TrAddrPointS/GeocodeServer/findAddressCandidates"}
+func (config Config) SearchByAddress(ctx context.Context, address string, maxLocations int64) (*geocoder.Response, error) {
+	service := &geocoder.Service{Endpoint: config.GeocoderEndpoint}
 
 	request := geocoder.Request{Address: address, MaxLocations: maxLocations}
 	httpRequest, err := request.BuildHttpRequest(ctx, service)
@@ -30,9 +29,8 @@ func SearchByAddress(ctx context.Context, address string, maxLocations int64) (*
 	return geocoder.ParseHttpResponse(httpResponse)
 }
 
-func FetchLocation(ctx context.Context, refId int) (*location.Response, error) {
-	service := &location.Service{
-		Endpoint: "http://egis.atlantaga.gov/app/home/php/egisws.php"}
+func (config Config) FetchLocation(ctx context.Context, refId int) (*location.Response, error) {
+	service := &location.Service{Endpoint: config.LocationEndpoint}
 
 	request := location.Request{Ref_ID: refId}
 	httpRequest, err := request.BuildHttpRequest(ctx, service)
@@ -48,9 +46,8 @@ func FetchLocation(ctx context.Context, refId int) (*location.Response, error) {
 	return location.ParseHttpResponse(httpResponse)
 }
 
-func FetchPlaces(ctx context.Context, refId int, category string) (*places.Response, error) {
-	service := &places.Service{
-		Endpoint: "http://egis.atlantaga.gov/app/home/php/egispoi.php"}
+func (config Config) FetchPlaces(ctx context.Context, refId int, category string) (*places.Response, error) {
+	service := &places.Service{Endpoint: config.PlacesEndpoint}
 
 	request := places.Request{Ref_ID: refId, Category: category}
 	httpRequest, err := request.BuildHttpRequest(ctx, service)

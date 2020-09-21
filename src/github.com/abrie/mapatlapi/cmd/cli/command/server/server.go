@@ -9,12 +9,13 @@ import (
 )
 
 import (
+	"github.com/abrie/mapatlapi"
 	"github.com/abrie/mapatlapi/cmd/cli/command/geocoder"
 	"github.com/abrie/mapatlapi/cmd/cli/command/location"
 	"github.com/abrie/mapatlapi/cmd/cli/command/places"
 )
 
-func Run(args []string) {
+func Run(api mapatlapi.Config, args []string) {
 	flagSet := flag.NewFlagSet("server", flag.ExitOnError)
 	port := flagSet.Int("port", 0, "Listen for requests on this port.")
 	flagSet.Parse(args)
@@ -25,9 +26,9 @@ func Run(args []string) {
 	}
 
 	http.HandleFunc("/", ServeHTTP)
-	http.HandleFunc("/geocoder", geocoder.ServeHTTP)
-	http.HandleFunc("/location", location.ServeHTTP)
-	http.HandleFunc("/places", places.ServeHTTP)
+	http.HandleFunc("/geocoder", geocoder.HandlerFunc(api))
+	http.HandleFunc("/location", location.HandlerFunc(api))
+	http.HandleFunc("/places", places.HandlerFunc(api))
 
 	addr := fmt.Sprintf(":%d", *port)
 	log.Printf("Service started on %s", addr)
