@@ -19,25 +19,25 @@ func main() {
 		fmt.Printf("\nusage: mapatlcli <command> [params]\n")
 		fmt.Printf("\nCommands are:\n")
 		fmt.Printf("\tgeocoder\tTransforms an address to a point ID.\n")
-		fmt.Printf("\tlocation\tLoads the data for the location associated with a point ID.\n")
-		fmt.Printf("\tplaces\t\tReturns places of interest proximal to the location identified by the point ID.\n")
+		fmt.Printf("\tlocation\tLoads the data for the location indentified by a point ID.\n")
+		fmt.Printf("\tplaces\t\tReturns places of interest near the location identified by a point ID.\n")
 		fmt.Printf("\tserver\t\tStarts this app as a web service.\n")
 		os.Exit(2)
 	}
 
-	config := mapatlapi.New()
+	api := mapatlapi.New()
 	command := os.Args[1]
 	args := os.Args[2:]
 
 	switch command {
 	case "geocoder":
-		geocoder.Run(config, args)
+		geocoder.Run(api, args)
 	case "location":
-		location.Run(config, args)
+		location.Run(api, args)
 	case "places":
-		places.Run(config, args)
+		places.Run(api, args)
 	case "server":
-		server.Run(config, args)
+		server.Run(api, args)
 	default:
 		fmt.Printf("Unkown command '%s'.\n", command)
 		os.Exit(2)
