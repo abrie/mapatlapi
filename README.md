@@ -44,6 +44,10 @@ func FetchLocation(ctx context.Context, refId int) (*location.Response, error)
 func FetchPlaces(ctx context.Context, refId int, category string) (*places.Response, error)
 ```
 
+## Build Instructions
+
+`make all` to test, build, and containerize.
+
 ## Technical Background
 
 Internally, the [MapATL website](https://egis.atlantaga.gov/app/home/index.html) performs three interesting RPC calls.
