@@ -1,8 +1,6 @@
 package places
 
-type Response struct {
-	Records []Record `json:"records"`
-}
+type Response []Record
 
 type Record struct {
 	NAME_OF_PLOI string `json:"NAME_OF_PLOI,omitempty"`

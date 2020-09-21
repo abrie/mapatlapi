@@ -11,7 +11,7 @@ func ParseHttpResponse(resp *http.Response) (*Response, error) {
 	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf("Response status not OK: %v", resp.Status)
+		return nil, fmt.Errorf("Response status not OK: %d", resp.StatusCode)
 	}
 
 	body, err := ioutil.ReadAll(resp.Body)

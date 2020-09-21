@@ -1,0 +1,30 @@
+{
+ "candidates": [
+  {
+   "address": "55 TRINITY AVE SW #, ATLANTA, GA 30303",
+   "location": {
+    "x": -84.39069390371506,
+    "y": 33.748421861177576,
+    "z": 0,
+    "m": -23728156529555.527
+   },
+   "attributes": {
+    "score": 94.11,
+    "Ref_ID": 101499
+   }
+  },
+  {
+   "address": "55 TRINITY AVE #, ATLANTA, GA 30303",
+   "location": {
+    "x": -84.38934064659041,
+    "y": 33.74734151939946,
+    "z": 0,
+    "m": -23728156529555.527
+   },
+   "attributes": {
+    "score": 94.11,
+    "Ref_ID": 490131
+   }
+  }
+ ]
+}
