@@ -26,7 +26,7 @@ The app may also be run as a webserver, for example:
 
 `docker run -p 8888:8000 abriedev/mapatlapi:latest server -port 8000`
 
-Which exposes the API through https://localhost:8888 with the following routes:
+Exposes a server under http://localhost:8888 with these routes:
 
 1. `/geocoder?address=55+Trinity+Ave+SW`
 2. `/locations?id=490131`
